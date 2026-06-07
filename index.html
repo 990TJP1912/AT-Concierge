@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pearce">
+<meta name="theme-color" content="#1a2a32">
+<title>The Pearce Collection</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f3ed;
+  --bg2: #efe9df;
+  --card: #fffdf9;
+  --border: #e2dccf;
+  --text: #1a1208;
+  --text2: #5a4a38;
+  --text3: #91806b;
+  --muted: #b8aa96;
+  --gold: #c4842d;
+  --green: #2d8a68;
+  --blue: #3d7ab5;
+  --plum: #9c5a8a;
+  --terra: #b85c38;
+  --teal: #1c8298;
+  --ink: #1a2a32;
+  --header: linear-gradient(135deg, #1a2a32 0%, #2a4a56 32%, #2c4a3a 64%, #3a342298 100%);
+  --shadow: 0 1px 2px rgba(40,30,15,.04), 0 8px 28px -10px rgba(40,30,15,.16);
+  --shadow-lg: 0 2px 4px rgba(40,30,15,.05), 0 24px 60px -18px rgba(40,30,15,.30);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(196,132,45,.05), transparent 40%),
+    radial-gradient(circle at 88% 12%, rgba(28,130,152,.05), transparent 42%),
+    var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  font-size: 18px;
+  line-height: 1.5;
+}
+input, select, textarea, button { font-family: inherit; font-size: inherit; color: inherit; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue) !important; box-shadow: 0 0 0 3px rgba(61,122,181,.13); }
+button { cursor: pointer; }
+::placeholder { color: var(--muted); }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.display { font-family: 'Playfair Display', Georgia, serif; }
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes grow { from { width: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+header {
+  background: var(--header); color: #f6f3ed; padding: 52px 24px 64px;
+  position: relative; overflow: hidden; text-align: center;
+}
+header::after {
+  content: ""; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 0v60M0 30h60' stroke='%23ffffff' stroke-opacity='.025' stroke-width='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.crest { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .42em; text-transform: uppercase; color: var(--gold); opacity: .9; margin-bottom: 18px; animation: fadeUp .6s ease both; }
+header h1 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(38px, 7vw, 62px); line-height: 1.02; letter-spacing: -.01em; animation: fadeUp .6s ease .06s both; }
+header h1 em { font-style: italic; font-weight: 500; color: #e9d6a8; }
+header .tagline { font-size: clamp(17px, 2.4vw, 21px); color: #cfd9d4; font-style: italic; margin-top: 14px; max-width: 560px; margin-left: auto; margin-right: auto; animation: fadeUp .6s ease .12s both; }
+.stat-strip { display: flex; justify-content: center; gap: 38px; margin-top: 30px; animation: fadeUp .6s ease .18s both; flex-wrap: wrap; }
+.stat-strip .s { text-align: center; }
+.stat-strip .s b { font-family: 'Playfair Display', serif; font-size: 30px; display: block; color: #fff; }
+.stat-strip .s span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #9fb0aa; }
+
+nav { position: sticky; top: 0; z-index: 40; background: rgba(246,243,237,.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 4px; padding: 8px; flex-wrap: wrap; }
+nav button { background: none; border: none; padding: 9px 18px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); transition: all .2s; font-weight: 500; }
+nav button:hover { color: var(--text); background: var(--bg2); }
+nav button.active { background: var(--ink); color: #f1ede4; }
+
+main { max-width: 1120px; margin: 0 auto; padding: 36px 22px 90px; }
+.tab { display: none; animation: fadeUp .45s ease both; }
+.tab.active { display: block; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.section-head h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 30px; }
+.section-head p { color: var(--text3); font-size: 17px; font-style: italic; }
+
+.controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.controls select, .controls input { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 9px 14px; font-size: 15px; color: var(--text2); }
+.controls input { flex: 1; min-width: 180px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: transform .22s ease, box-shadow .22s ease; cursor: pointer; }
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.card.elite { border-color: #d8b878; }
+.card .region-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+.card h3 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 21px; line-height: 1.12; }
+.card .loc { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
+.rating-badge { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: #fff; }
+.card .vibe { font-style: italic; color: var(--text2); margin: 12px 0 14px; font-size: 16.5px; }
+.card .meta { display: flex; gap: 14px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); }
+.region-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+.bars { margin-top: 16px; display: none; }
+.card.open .bars { display: block; animation: fadeUp .3s ease both; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.bar-row .ic { width: 14px; text-align: center; font-size: 11px; flex-shrink: 0; }
+.bar-row .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .03em; text-transform: uppercase; color: var(--text3); width: 80px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 99px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 99px; animation: grow .6s ease both; }
+.bar-row .val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text2); width: 18px; text-align: right; }
+.card .actions { margin-top: 16px; display: none; gap: 8px; }
+.card.open .actions { display: flex; }
+.card .actions button { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text2); }
+.card .actions button:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.card .actions button.del:hover { background: var(--terra); border-color: var(--terra); }
+
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 760px) { .profile-grid { grid-template-columns: 1fr; } }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; box-shadow: var(--shadow); }
+.panel h3 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 22px; margin-bottom: 4px; }
+.panel .sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); margin-bottom: 18px; }
+.dna-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.dna-row .ic { width: 16px; text-align: center; flex-shrink: 0; }
+.dna-row .lbl { width: 110px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .02em; text-transform: uppercase; color: var(--text2); flex-shrink: 0; }
+.dna-row .track { flex: 1; height: 8px; background: var(--bg2); border-radius: 99px; overflow: hidden; }
+.dna-row .fill { height: 100%; border-radius: 99px; animation: grow .8s ease both; }
+.dna-row .num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text2); width: 32px; text-align: right; }
+.region-map { display: flex; flex-direction: column; gap: 10px; }
+.region-line { display: flex; align-items: center; gap: 10px; }
+.region-line .dot { width: 10px; height: 10px; border-radius: 99px; flex-shrink: 0; }
+.region-line .name { flex: 1; font-size: 16px; }
+.region-line .ct { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text3); }
+.insight { font-style: italic; color: var(--text2); font-size: 17px; line-height: 1.55; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.insight:last-child { border-bottom: none; }
+.insight b { font-family: 'Playfair Display', serif; font-style: normal; color: var(--text); }
+
+.ai-intro { max-width: 640px; }
+.ai-box { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 26px; box-shadow: var(--shadow); margin-top: 22px; }
+.ai-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.ai-input-row input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 13px 18px; font-size: 18px; }
+.ai-input-row button { background: var(--ink); color: #f1ede4; border: none; border-radius: 12px; padding: 0 26px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.ai-input-row button:hover { background: var(--gold); }
+.mode-toggle { display: flex; gap: 8px; margin-bottom: 4px; }
+.mode-toggle button { background: var(--bg); border: 1px solid var(--border); border-radius: 99px; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+.mode-toggle button.on { background: var(--green); color: #fff; border-color: var(--green); }
+.loader { display: none; text-align: center; padding: 30px; }
+.loader .ring { width: 34px; height: 34px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 99px; animation: spin .8s linear infinite; margin: 0 auto 12px; }
+.loader p { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+.ai-result { margin-top: 18px; font-size: 18px; line-height: 1.62; color: var(--text); white-space: pre-wrap; }
+.ai-result strong { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--ink); }
+.demo-tag { display: inline-block; background: var(--bg2); color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-bottom: 12px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 760px; }
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+.field input, .field select { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; font-size: 16px; }
+.attr-head { grid-column: 1/-1; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); margin-top: 8px; }
+.range-field { display: flex; align-items: center; gap: 12px; }
+.range-field input[type=range] { flex: 1; accent-color: var(--gold); }
+.range-field .rv { font-family: 'JetBrains Mono', monospace; font-size: 14px; width: 28px; color: var(--text); }
+.submit-btn { grid-column: 1 / -1; background: var(--ink); color: #f1ede4; border: none; border-radius: 12px; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
+.submit-btn:hover { background: var(--gold); }
+
+.key-panel { background: var(--bg2); border: 1px dashed var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; }
+.key-panel summary { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text2); cursor: pointer; }
+.key-panel .body { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.key-panel input { flex: 1; min-width: 200px; background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 9px 13px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.key-panel button { background: var(--green); color: #fff; border: none; border-radius: 9px; padding: 9px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.key-panel small { display: block; margin-top: 10px; color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.6; }
+.key-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+
+.sync-pill { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; padding: 5px 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #cfd9d4; }
+.sync-pill .dot { width: 6px; height: 6px; border-radius: 99px; background: #91806b; transition: background .3s ease; }
+.sync-pill.synced .dot { background: #5cc99a; box-shadow: 0 0 8px rgba(92,201,154,.5); }
+.sync-pill.syncing .dot { background: #e9d6a8; animation: pulse 1s infinite; }
+.sync-pill.error .dot { background: #e88663; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+footer { text-align: center; padding: 40px 20px; color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="crest">Boutique &middot; Character &middot; Setting</div>
+  <h1>The <em>Pearce</em> Collection</h1>
+  <p class="tagline">A curated atlas of character-driven hotels — and an engine that scouts, scores, and vets new ones against the profile.</p>
+  <div class="stat-strip" id="statStrip"></div>
+  <div class="sync-pill" id="syncPill"><span class="dot"></span><span id="syncText">Local only</span></div>
+</header>
+
+<nav>
+  <button class="active" data-tab="collection">Collection</button>
+  <button data-tab="profile">Profile</button>
+  <button data-tab="discover">Discover</button>
+  <button data-tab="vet">Vet</button>
+  <button data-tab="add">+ Add</button>
+</nav>
+
+<main>
+  <section class="tab active" id="collection">
+    <div class="section-head"><h2>The Collection</h2><p id="collectionCount"></p></div>
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="Search by name, location, vibe…">
+      <select id="sortSelect">
+        <option value="rating">Sort: Rating</option>
+        <option value="name">Sort: Name</option>
+        <option value="rooms">Sort: Room count</option>
+        <option value="region">Sort: Region</option>
+      </select>
+      <select id="regionFilter"><option value="">All regions</option></select>
+    </div>
+    <div class="grid" id="cardGrid"></div>
+  </section>
+
+  <section class="tab" id="profile">
+    <div class="section-head"><h2>Taste DNA</h2><p>What the collection reveals</p></div>
+    <div class="profile-grid">
+      <div class="panel"><h3>Attribute Signature</h3><div class="sub">Rating-weighted across the collection</div><div id="dnaBars"></div></div>
+      <div class="panel"><h3>Geographic Spread</h3><div class="sub" id="regionSub"></div><div class="region-map" id="regionMap"></div></div>
+      <div class="panel" style="grid-column:1/-1"><h3>Reading the Profile</h3><div class="sub">Patterns &amp; signals</div><div id="insights"></div></div>
+    </div>
+  </section>
+
+  <section class="tab" id="discover">
+    <div class="section-head"><h2>Discover</h2><p>Scout new properties for a destination</p></div>
+    <div class="ai-intro serif" style="color:var(--text2);font-size:18px">Name a region, city, or country. The engine surfaces boutique properties that match the profile — each scored, sized, and given a verdict.</div>
+    <div class="ai-box">
+      <div class="ai-input-row"><input type="text" id="discoverInput" placeholder="e.g. Lake Como, Oaxaca, the Scottish Highlands…"><button onclick="runAI('discover')">Scout</button></div>
+      <div class="mode-toggle"><button class="on" data-mode="quick" data-engine="discover">Quick</button><button data-mode="deep" data-engine="discover">Deep &middot; live search</button></div>
+      <div class="loader" id="discoverLoader"><div class="ring"></div><p id="discoverLoadMsg">Scouting…</p></div>
+      <div class="ai-result" id="discoverResult"></div>
+    </div>
+  </section>
+
+  <section class="tab" id="vet">
+    <div class="section-head"><h2>Vet</h2><p>Score a specific property against the profile</p></div>
+    <div class="ai-intro serif" style="color:var(--text2);font-size:18px">Considering somewhere? Name it. The engine scores it honestly against the collection and gives a verdict: belongs, worth trying, or skip.</div>
+    <div class="ai-box">
+      <div class="ai-input-row"><input type="text" id="vetInput" placeholder="e.g. Borgo Pignano, The Newt in Somerset…"><button onclick="runAI('vet')">Vet</button></div>
+      <div class="mode-toggle"><button class="on" data-mode="quick" data-engine="vet">Quick</button><button data-mode="deep" data-engine="vet">Deep &middot; live search</button></div>
+      <div class="loader" id="vetLoader"><div class="ring"></div><p id="vetLoadMsg">Vetting…</p></div>
+      <div class="ai-result" id="vetResult"></div>
+    </div>
+  </section>
+
+  <section class="tab" id="add">
+    <div class="section-head"><h2 id="formTitle">Add a Property</h2><p>Saves to this browser &middot; updates live</p></div>
+    <div class="form-grid">
+      <div class="field"><label>Name</label><input id="f_name" placeholder="Hotel name"></div>
+      <div class="field"><label>Location</label><input id="f_location" placeholder="City / area"></div>
+      <div class="field"><label>Country</label><input id="f_country" placeholder="Country"></div>
+      <div class="field"><label>Region</label><select id="f_region"></select></div>
+      <div class="field"><label>Room count</label><input id="f_rooms" type="number" placeholder="e.g. 14"></div>
+      <div class="field"><label>Overall rating</label><div class="range-field"><input id="f_rating" type="range" min="1" max="10" step="0.5" value="7"><span class="rv" id="rv_rating">7</span></div></div>
+      <div class="field full"><label>Vibe / one-liner</label><input id="f_vibe" placeholder="The thing you'd tell a friend"></div>
+      <div class="attr-head">Attributes (1–10)</div>
+      <div class="field"><label>Intimacy</label><div class="range-field"><input id="f_intimacy" type="range" min="1" max="10" value="7"><span class="rv" id="rv_intimacy">7</span></div></div>
+      <div class="field"><label>Character &amp; Soul</label><div class="range-field"><input id="f_character" type="range" min="1" max="10" value="7"><span class="rv" id="rv_character">7</span></div></div>
+      <div class="field"><label>Setting</label><div class="range-field"><input id="f_settingImmersion" type="range" min="1" max="10" value="7"><span class="rv" id="rv_settingImmersion">7</span></div></div>
+      <div class="field"><label>Cuisine</label><div class="range-field"><input id="f_cuisineQuality" type="range" min="1" max="10" value="7"><span class="rv" id="rv_cuisineQuality">7</span></div></div>
+      <div class="field"><label>Adventure</label><div class="range-field"><input id="f_adventureProximity" type="range" min="1" max="10" value="5"><span class="rv" id="rv_adventureProximity">5</span></div></div>
+      <div class="field"><label>Kid-Friendly</label><div class="range-field"><input id="f_kidFriendly" type="range" min="1" max="10" value="5"><span class="rv" id="rv_kidFriendly">5</span></div></div>
+      <div class="field"><label>Design</label><div class="range-field"><input id="f_designAesthetic" type="range" min="1" max="10" value="7"><span class="rv" id="rv_designAesthetic">7</span></div></div>
+      <button class="submit-btn" id="submitBtn" onclick="saveHotel()">Save to Collection</button>
+    </div>
+  </section>
+</main>
+
+<footer>The Pearce Collection &middot; built by Tim Pearce &middot; <a href="#" onclick="resetDemo();return false;">reset to original 29</a></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== SUPABASE CONFIG (fill in to enable shared sync between devices) =====
+// Get these from your Supabase project: Settings → API
+// Leave both as empty strings to run in local-only mode.
+const SUPABASE_URL = "https://ylwmwsdaoelumbprlhkj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlsd213c2Rhb2VsdW1icHJsaGtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3Nzg2NjcsImV4cCI6MjA5NjM1NDY2N30.Eycpm_o4sHtDlX6tYMPaYl_O2pi9Woj0w0sgDEIXq20";
+
+const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+function setSync(state, text) {
+  const pill = document.getElementById("syncPill");
+  const t = document.getElementById("syncText");
+  if (!pill || !t) return;
+  pill.classList.remove("synced", "syncing", "error");
+  if (state) pill.classList.add(state);
+  t.textContent = text;
+}
+
+// ===== CONFIG (original 7-attribute model) =====
+const ATTR_META = {
+  intimacy:           { label: "Intimacy",        icon: "◈", color: "#9c5a8a" },
+  character:          { label: "Character & Soul", icon: "✦", color: "#c4842d" },
+  settingImmersion:   { label: "Setting",          icon: "◉", color: "#2d8a68" },
+  cuisineQuality:     { label: "Cuisine",          icon: "◆", color: "#b85c38" },
+  adventureProximity: { label: "Adventure",        icon: "▲", color: "#3d7ab5" },
+  kidFriendly:        { label: "Kid-Friendly",     icon: "●", color: "#7a6cc4" },
+  designAesthetic:    { label: "Design",           icon: "□", color: "#5a8a8a" }
+};
+const REGION_COLOR = {
+  "South Asia": "#b35a38", "Southern Europe": "#9c5a8a", "Western Europe": "#6b5ba5",
+  "New England": "#2d8a68", "Mid-Atlantic": "#5a8f4a", "Southeast": "#c2843a",
+  "Mountain West": "#a86b3c", "Central America": "#c4842d", "Caribbean": "#1c8298", "West Coast": "#3d7ab5"
+};
+function regionColor(r) { return REGION_COLOR[r] || "#91806b"; }
+
+// ===== ORIGINAL DATASET — your real 29, recovered =====
+const DEFAULT_HOTELS = [
+  { id:1,  name:"St. Regis Mumbai", location:"Mumbai, India", country:"India", region:"South Asia", rating:8, roomCount:212, vibe:"Grand urban luxury with local soul", attributes:{intimacy:4,character:8,settingImmersion:7,cuisineQuality:9,adventureProximity:6,kidFriendly:5,designAesthetic:9} },
+  { id:2,  name:"St. Regis Goa", location:"Goa, India", country:"India", region:"South Asia", rating:7, roomCount:67, vibe:"Beach resort with Indian character", attributes:{intimacy:6,character:7,settingImmersion:7,cuisineQuality:8,adventureProximity:6,kidFriendly:7,designAesthetic:7} },
+  { id:3,  name:"The Wauwinet", location:"Nantucket, MA", country:"USA", region:"New England", rating:7, roomCount:36, vibe:"Refined coastal New England charm", attributes:{intimacy:8,character:8,settingImmersion:8,cuisineQuality:8,adventureProximity:5,kidFriendly:6,designAesthetic:7} },
+  { id:4,  name:"Vanderbilt Newport", location:"Newport, RI", country:"USA", region:"New England", rating:7, roomCount:33, vibe:"Historic Gilded Age elegance", attributes:{intimacy:8,character:8,settingImmersion:6,cuisineQuality:7,adventureProximity:5,kidFriendly:5,designAesthetic:8} },
+  { id:5,  name:"Triple Creek Ranch", location:"Darby, MT", country:"USA", region:"Mountain West", rating:7, roomCount:26, vibe:"Rugged luxury in the Bitterroot", attributes:{intimacy:9,character:9,settingImmersion:10,cuisineQuality:8,adventureProximity:9,kidFriendly:7,designAesthetic:7} },
+  { id:6,  name:"White Barn Inn", location:"Kennebunk, ME", country:"USA", region:"New England", rating:7, roomCount:26, vibe:"Coastal Maine refined rusticity", attributes:{intimacy:9,character:9,settingImmersion:7,cuisineQuality:9,adventureProximity:4,kidFriendly:5,designAesthetic:8} },
+  { id:7,  name:"The Mayflower Inn", location:"Washington, CT", country:"USA", region:"New England", rating:7, roomCount:30, vibe:"Country estate with Auberge polish", attributes:{intimacy:8,character:7,settingImmersion:7,cuisineQuality:8,adventureProximity:4,kidFriendly:5,designAesthetic:7} },
+  { id:8,  name:"San Montano Resort & Spa", location:"Ischia, Italy", country:"Italy", region:"Southern Europe", rating:8, roomCount:70, vibe:"Mediterranean clifftop with volcanic soul", attributes:{intimacy:7,character:9,settingImmersion:10,cuisineQuality:9,adventureProximity:7,kidFriendly:6,designAesthetic:8} },
+  { id:9,  name:"Golden Tower", location:"Florence, Italy", country:"Italy", region:"Southern Europe", rating:7, roomCount:15, vibe:"Intimate Florentine palazzo", attributes:{intimacy:10,character:8,settingImmersion:6,cuisineQuality:6,adventureProximity:4,kidFriendly:4,designAesthetic:8} },
+  { id:10, name:"Casa del Poeta", location:"Seville, Spain", country:"Spain", region:"Southern Europe", rating:7, roomCount:18, vibe:"Andalusian courtyard poetry", attributes:{intimacy:10,character:9,settingImmersion:7,cuisineQuality:7,adventureProximity:5,kidFriendly:4,designAesthetic:8} },
+  { id:11, name:"Fuente de la Higuera", location:"Ronda, Spain", country:"Spain", region:"Southern Europe", rating:7, roomCount:12, vibe:"Rural Andalusian olive mill retreat", attributes:{intimacy:10,character:10,settingImmersion:9,cuisineQuality:8,adventureProximity:6,kidFriendly:5,designAesthetic:8} },
+  { id:12, name:"Hotel Urso", location:"Madrid, Spain", country:"Spain", region:"Southern Europe", rating:7, roomCount:78, vibe:"Understated urban boutique", attributes:{intimacy:6,character:7,settingImmersion:5,cuisineQuality:7,adventureProximity:4,kidFriendly:5,designAesthetic:7} },
+  { id:13, name:"W Playa Conchal", location:"Guanacaste, Costa Rica", country:"Costa Rica", region:"Central America", rating:7, roomCount:153, vibe:"Modern beach resort polish", attributes:{intimacy:4,character:5,settingImmersion:7,cuisineQuality:7,adventureProximity:7,kidFriendly:8,designAesthetic:7} },
+  { id:14, name:"Hideaway Rio Celeste", location:"Bijagua, Costa Rica", country:"Costa Rica", region:"Central America", rating:8, roomCount:26, vibe:"Rainforest casita immersion", attributes:{intimacy:9,character:9,settingImmersion:10,cuisineQuality:8,adventureProximity:9,kidFriendly:7,designAesthetic:7} },
+  { id:15, name:"Hotel 49 Navona", location:"Rome, Italy", country:"Italy", region:"Southern Europe", rating:7, roomCount:6, vibe:"Micro-boutique on Rome's grandest piazza", attributes:{intimacy:10,character:8,settingImmersion:8,cuisineQuality:5,adventureProximity:4,kidFriendly:4,designAesthetic:7} },
+  { id:16, name:"Chatham Bars Inn", location:"Chatham, MA", country:"USA", region:"New England", rating:8, roomCount:217, vibe:"Grand Cape Cod estate with serious culinary chops", attributes:{intimacy:5,character:8,settingImmersion:8,cuisineQuality:9,adventureProximity:6,kidFriendly:8,designAesthetic:8} },
+  { id:17, name:"French Quarter Inn", location:"Charleston, SC", country:"USA", region:"Southeast", rating:6, roomCount:50, vibe:"Southern charm in the historic district", attributes:{intimacy:7,character:7,settingImmersion:6,cuisineQuality:6,adventureProximity:4,kidFriendly:5,designAesthetic:6} },
+  { id:18, name:"Corral del Rey", location:"Seville, Spain", country:"Spain", region:"Southern Europe", rating:7, roomCount:17, vibe:"Converted townhouse with rooftop soul", attributes:{intimacy:10,character:9,settingImmersion:7,cuisineQuality:7,adventureProximity:5,kidFriendly:4,designAesthetic:9} },
+  { id:19, name:"The Ritz-Carlton Grand Cayman", location:"Grand Cayman, Cayman Islands", country:"Cayman Islands", region:"Caribbean", rating:7, roomCount:375, vibe:"Polished Caribbean beach luxury", attributes:{intimacy:3,character:5,settingImmersion:7,cuisineQuality:8,adventureProximity:6,kidFriendly:9,designAesthetic:7} },
+  { id:20, name:"Round Hill Hotel & Villas", location:"Montego Bay, Jamaica", country:"Jamaica", region:"Caribbean", rating:8, roomCount:36, vibe:"Ralph Lauren-designed Jamaican legend", attributes:{intimacy:8,character:10,settingImmersion:9,cuisineQuality:8,adventureProximity:6,kidFriendly:7,designAesthetic:9} },
+  { id:21, name:"The Eliot Hotel", location:"Boston, MA", country:"USA", region:"New England", rating:7, roomCount:95, vibe:"Back Bay residential elegance", attributes:{intimacy:6,character:7,settingImmersion:5,cuisineQuality:8,adventureProximity:4,kidFriendly:5,designAesthetic:7} },
+  { id:22, name:"Four Seasons Resort Nevis", location:"Charlestown, Nevis", country:"St. Kitts & Nevis", region:"Caribbean", rating:6, roomCount:196, vibe:"Tropical resort on a volcanic island", attributes:{intimacy:4,character:6,settingImmersion:8,cuisineQuality:7,adventureProximity:6,kidFriendly:8,designAesthetic:7} },
+  { id:23, name:"Kimpton Seafire", location:"Grand Cayman, Cayman Islands", country:"Cayman Islands", region:"Caribbean", rating:6, roomCount:264, vibe:"Modern Seven Mile Beach resort", attributes:{intimacy:3,character:5,settingImmersion:7,cuisineQuality:7,adventureProximity:5,kidFriendly:8,designAesthetic:7} },
+  { id:24, name:"Château de Rilly", location:"Rilly-sur-Loire, France", country:"France", region:"Western Europe", rating:6, roomCount:20, vibe:"Loire Valley château with vineyard views", attributes:{intimacy:9,character:8,settingImmersion:8,cuisineQuality:7,adventureProximity:5,kidFriendly:5,designAesthetic:7} },
+  { id:25, name:"The Salem Inn", location:"Salem, MA", country:"USA", region:"New England", rating:6, roomCount:44, vibe:"Historic New England inn with colonial character", attributes:{intimacy:7,character:7,settingImmersion:6,cuisineQuality:5,adventureProximity:4,kidFriendly:5,designAesthetic:6} },
+  { id:26, name:"Zemi Beach House", location:"Shoal Bay, Anguilla", country:"Anguilla", region:"Caribbean", rating:6, roomCount:65, vibe:"Boutique Caribbean with wellness soul", attributes:{intimacy:6,character:7,settingImmersion:8,cuisineQuality:7,adventureProximity:5,kidFriendly:6,designAesthetic:7} },
+  { id:27, name:"Crystals Luxury Villa", location:"Soufrière, St. Lucia", country:"St. Lucia", region:"Caribbean", rating:6, roomCount:8, vibe:"Piton-view private villa hideaway", attributes:{intimacy:10,character:7,settingImmersion:9,cuisineQuality:6,adventureProximity:6,kidFriendly:5,designAesthetic:6} },
+  { id:28, name:"Scarlet Huntington", location:"San Francisco, CA", country:"USA", region:"West Coast", rating:6, roomCount:135, vibe:"Nob Hill grande dame with old-world flair", attributes:{intimacy:5,character:7,settingImmersion:5,cuisineQuality:7,adventureProximity:5,kidFriendly:4,designAesthetic:7} },
+  { id:29, name:"Mayhurst Estate", location:"Orange, VA", country:"USA", region:"Mid-Atlantic", rating:6, roomCount:9, vibe:"Civil War-era manor B&B with antebellum grace", attributes:{intimacy:10,character:9,settingImmersion:8,cuisineQuality:6,adventureProximity:4,kidFriendly:4,designAesthetic:7} }
+];
+
+// ===== STATE =====
+let hotels = load();
+let sortBy = "rating", regionFilterVal = "", searchVal = "";
+let editId = null;
+const modes = { discover: "quick", vet: "quick" };
+
+function load() {
+  try { const s = localStorage.getItem("pearce_hotels"); if (s) return JSON.parse(s); } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_HOTELS));
+}
+function save() { try { localStorage.setItem("pearce_hotels", JSON.stringify(hotels)); } catch(e) {} }
+function nextId() { return hotels.length ? Math.max(...hotels.map(h=>h.id)) + 1 : 1; }
+function resetDemo() {
+  if (!confirm("Reset to the original 29? This clears edits in this browser and (if connected) the shared cloud collection.")) return;
+  hotels = JSON.parse(JSON.stringify(DEFAULT_HOTELS));
+  save();
+  render();
+  if (sb) {
+    (async () => {
+      setSync("syncing", "Resetting cloud…");
+      try {
+        await sb.from("hotels").delete().neq("id", -1);
+        const rows = hotels.map(h => ({ id: h.id, data: h }));
+        const { error } = await sb.from("hotels").upsert(rows);
+        if (error) throw error;
+        setSync("synced", `Synced · ${hotels.length} hotels`);
+      } catch (e) { setSync("error", "Reset failed in cloud"); }
+    })();
+  }
+}
+
+// ===== CLOUD SYNC (Supabase) =====
+async function syncFromCloud() {
+  if (!sb) { setSync(null, "Local only · no cloud configured"); return; }
+  setSync("syncing", "Syncing…");
+  try {
+    const { data, error } = await sb.from("hotels").select("id, data").order("id");
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      // Cloud is empty — seed it from the local collection (first run).
+      const rows = hotels.map(h => ({ id: h.id, data: h }));
+      const { error: upErr } = await sb.from("hotels").upsert(rows);
+      if (upErr) throw upErr;
+      setSync("synced", `Seeded · ${hotels.length} hotels`);
+      return;
+    }
+    hotels = data.map(r => r.data);
+    save();
+    render();
+    setSync("synced", `Synced · ${hotels.length} hotels`);
+  } catch (e) {
+    console.error("Sync failed:", e);
+    setSync("error", "Cloud offline · using local");
+  }
+}
+
+async function pushHotelToCloud(h) {
+  if (!sb) return;
+  setSync("syncing", "Saving…");
+  try {
+    const { error } = await sb.from("hotels").upsert({ id: h.id, data: h });
+    if (error) throw error;
+    setSync("synced", `Synced · ${hotels.length} hotels`);
+  } catch (e) {
+    console.error("Cloud save failed:", e);
+    setSync("error", "Save failed in cloud");
+  }
+}
+
+async function deleteHotelFromCloud(id) {
+  if (!sb) return;
+  setSync("syncing", "Deleting…");
+  try {
+    const { error } = await sb.from("hotels").delete().eq("id", id);
+    if (error) throw error;
+    setSync("synced", `Synced · ${hotels.length} hotels`);
+  } catch (e) {
+    console.error("Cloud delete failed:", e);
+    setSync("error", "Delete failed in cloud");
+  }
+}
+
+// ===== RENDER =====
+function ratingColor(r) { if (r>=8) return "var(--green)"; if (r>=7) return "var(--gold)"; if (r>=6) return "var(--blue)"; return "var(--text3)"; }
+
+function render() { renderStats(); renderCards(); renderProfile(); renderRegionFilters(); }
+
+function renderStats() {
+  const countries = new Set(hotels.map(h=>h.country)).size;
+  const avg = hotels.length ? (hotels.reduce((s,h)=>s+h.rating,0)/hotels.length) : 0;
+  const elite = hotels.filter(h=>h.rating>=8).length;
+  document.getElementById("statStrip").innerHTML =
+    `<div class="s"><b>${hotels.length}</b><span>Properties</span></div>
+     <div class="s"><b>${countries}</b><span>Countries</span></div>
+     <div class="s"><b>${avg.toFixed(1)}</b><span>Avg rating</span></div>
+     <div class="s"><b>${elite}</b><span>8-Club</span></div>`;
+  document.getElementById("collectionCount").textContent = `${hotels.length} properties across ${countries} countries`;
+}
+
+function renderCards() {
+  let list = [...hotels];
+  if (searchVal) { const q = searchVal.toLowerCase(); list = list.filter(h => (h.name+h.location+h.country+h.vibe).toLowerCase().includes(q)); }
+  if (regionFilterVal) list = list.filter(h => h.region === regionFilterVal);
+  list.sort((a,b) => {
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    if (sortBy === "rooms") return a.roomCount - b.roomCount;
+    if (sortBy === "region") return a.region.localeCompare(b.region);
+    return b.rating - a.rating;
+  });
+  document.getElementById("cardGrid").innerHTML = list.map(h => {
+    const bars = Object.keys(ATTR_META).map(k => `
+      <div class="bar-row"><span class="ic" style="color:${ATTR_META[k].color}">${ATTR_META[k].icon}</span><span class="lbl">${ATTR_META[k].label}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${(h.attributes[k]||0)*10}%;background:${ATTR_META[k].color}"></div></div>
+        <span class="val">${h.attributes[k]||0}</span></div>`).join("");
+    return `<div class="card ${h.rating>=8?'elite':''}" onclick="this.classList.toggle('open')">
+      <div class="region-bar" style="background:${regionColor(h.region)}"></div>
+      <div class="top"><div><h3>${h.name}</h3><div class="loc">${h.location}</div></div>
+        <div class="rating-badge" style="background:${ratingColor(h.rating)}">${h.rating}</div></div>
+      <div class="vibe">"${h.vibe}"</div>
+      <div class="meta"><span class="region-pill" style="background:${regionColor(h.region)}">${h.region}</span><span>${h.roomCount} rooms</span></div>
+      <div class="bars">${bars}</div>
+      <div class="actions">
+        <button onclick="event.stopPropagation();editHotel(${h.id})">Edit</button>
+        <button class="del" onclick="event.stopPropagation();deleteHotel(${h.id})">Delete</button>
+      </div>
+    </div>`;
+  }).join("") || `<p style="color:var(--text3);font-style:italic">No properties match.</p>`;
+}
+
+function getProfile() {
+  const p = {};
+  Object.keys(ATTR_META).forEach(a => {
+    const w = hotels.reduce((s,h)=>s+(h.attributes[a]||5)*h.rating,0);
+    const t = hotels.reduce((s,h)=>s+h.rating,0);
+    p[a] = t ? w/t : 0;
+  });
+  return p;
+}
+
+function renderProfile() {
+  if (!hotels.length) return;
+  const dna = getProfile();
+  document.getElementById("dnaBars").innerHTML = Object.keys(ATTR_META).map(k => `
+    <div class="dna-row"><span class="ic" style="color:${ATTR_META[k].color}">${ATTR_META[k].icon}</span><span class="lbl">${ATTR_META[k].label}</span>
+      <div class="track"><div class="fill" style="width:${dna[k]*10}%;background:${ATTR_META[k].color}"></div></div>
+      <span class="num">${dna[k].toFixed(1)}</span></div>`).join("");
+
+  const byRegion = {};
+  hotels.forEach(h => byRegion[h.region] = (byRegion[h.region]||0)+1);
+  const regs = Object.entries(byRegion).sort((a,b)=>b[1]-a[1]);
+  document.getElementById("regionSub").textContent = `${regs.length} regions represented`;
+  document.getElementById("regionMap").innerHTML = regs.map(([r,c]) => `
+    <div class="region-line"><span class="dot" style="background:${regionColor(r)}"></span><span class="name">${r}</span><span class="ct">${c}</span></div>`).join("");
+
+  const median = [...hotels].map(h=>h.roomCount).sort((a,b)=>a-b)[Math.floor(hotels.length/2)];
+  const top = Object.entries(dna).sort((a,b)=>b[1]-a[1])[0];
+  const elite = hotels.filter(h=>h.rating>=8).map(h=>h.name);
+  document.getElementById("insights").innerHTML = `
+    <div class="insight">The collection skews <b>boutique</b> — median property runs about <b>${median} rooms</b>. Intimacy and setting track closely with how you rate a place.</div>
+    <div class="insight">Your strongest weighted signal is <b>${ATTR_META[top[0]].label.toLowerCase()}</b> at <b>${top[1].toFixed(1)}/10</b> — the through-line of the taste, character over brand.</div>
+    <div class="insight">The <b>8-Club</b> — your highest-rated stays — holds: <b>${elite.join(", ") || "none yet"}</b>.</div>`;
+}
+
+function renderRegionFilters() {
+  const sel = document.getElementById("regionFilter"); const cur = sel.value;
+  const regs = [...new Set(hotels.map(h=>h.region))].sort();
+  sel.innerHTML = `<option value="">All regions</option>` + regs.map(r=>`<option value="${r}">${r}</option>`).join("");
+  sel.value = cur;
+  document.getElementById("f_region").innerHTML = Object.keys(REGION_COLOR).map(r=>`<option value="${r}">${r}</option>`).join("");
+}
+
+// ===== ADD / EDIT =====
+const ATTRS = ["intimacy","character","settingImmersion","cuisineQuality","adventureProximity","kidFriendly","designAesthetic"];
+function editHotel(id) {
+  const h = hotels.find(x=>x.id===id); if (!h) return; editId = id;
+  f_name.value=h.name; f_location.value=h.location; f_country.value=h.country; f_region.value=h.region;
+  f_rooms.value=h.roomCount; f_rating.value=h.rating; rv_rating.textContent=h.rating; f_vibe.value=h.vibe;
+  ATTRS.forEach(k=>{ document.getElementById("f_"+k).value=h.attributes[k]; document.getElementById("rv_"+k).textContent=h.attributes[k]; });
+  document.getElementById("formTitle").textContent = "Edit Property";
+  document.getElementById("submitBtn").textContent = "Update Property";
+  switchTab("add");
+}
+function deleteHotel(id) {
+  const h = hotels.find(x=>x.id===id);
+  if (h && confirm(`Remove "${h.name}" from the collection?`)) {
+    hotels = hotels.filter(x=>x.id!==id); save(); render();
+    deleteHotelFromCloud(id);
+  }
+}
+function saveHotel() {
+  if (!f_name.value.trim()) { alert("Give it a name first."); return; }
+  const attributes = {}; ATTRS.forEach(k => attributes[k] = +document.getElementById("f_"+k).value);
+  const data = { name:f_name.value.trim(), location:f_location.value.trim(), country:f_country.value.trim(),
+    region:f_region.value, roomCount:+f_rooms.value||0, rating:+f_rating.value, vibe:f_vibe.value.trim(), attributes };
+  let saved;
+  if (editId !== null) { saved = hotels.find(x=>x.id===editId); Object.assign(saved, data); editId = null; }
+  else { saved = { id: nextId(), ...data }; hotels.push(saved); }
+  save(); render();
+  pushHotelToCloud(saved);
+  ["name","location","country","rooms","vibe"].forEach(k=>document.getElementById("f_"+k).value="");
+  document.getElementById("formTitle").textContent = "Add a Property";
+  document.getElementById("submitBtn").textContent = "Save to Collection";
+  switchTab("collection");
+}
+
+// ===== AI ENGINE =====
+function getApiKey() { try { return localStorage.getItem("pearceApiKey") || ""; } catch(e) { return ""; } }
+function setApiKey(k) { try { k ? localStorage.setItem("pearceApiKey", k) : localStorage.removeItem("pearceApiKey"); } catch(e) {} updateKeyStatus(); }
+function updateKeyStatus() {
+  const k = getApiKey();
+  document.querySelectorAll(".key-status").forEach(el => {
+    el.textContent = k ? "● Live mode — your key is set" : "● Demo mode — sample output";
+    el.style.color = k ? "var(--green)" : "var(--text3)";
+  });
+}
+function profileString() {
+  const dna = getProfile();
+  const median = [...hotels].map(h=>h.roomCount).sort((a,b)=>a-b)[Math.floor(hotels.length/2)] || 0;
+  const elite = hotels.filter(h=>h.rating>=8).map(h=>h.name).join(", ");
+  return `Tim Pearce's Hotel Taste Profile (${hotels.length} properties, ${new Set(hotels.map(h=>h.country)).size} countries):\n`
+    + Object.keys(ATTR_META).map(k=>`- ${ATTR_META[k].label}: ${dna[k].toFixed(1)}/10`).join("\n")
+    + `\n\nPatterns: Boutique-driven (median ${median} rooms). 8-Club: ${elite}. Values character over brand. Strong setting immersion and cuisine correlate with higher ratings.\n\n`
+    + `Collection: ${hotels.map(h=>`${h.name} (${h.location}) ${h.rating}/10, ${h.roomCount}rm. "${h.vibe}"`).join("; ")}`;
+}
+
+const DEMO = {
+  discover: `**Borgo Santo Pietro — Tuscany, Italy**  ·  Match ~94%\n20 rooms · A 13th-century estate on 300 acres with its own farm, Michelin dining, and a spring-fed spa. The platonic ideal of your profile — setting immersion, cuisine, and intimacy all at once. Sits with San Montano and Fuente de la Higuera at the top.  ·  Verdict: belongs.\n\n**Monteverdi — Val d'Orcia, Italy**  ·  Match ~90%\n23 rooms · A restored hilltop hamlet — stone, silence, serious food. Character over brand, exactly your lane; a European cousin to Triple Creek's total immersion.  ·  Verdict: belongs.\n\n**Castello di Reschio — Umbria, Italy**  ·  Match ~88%\n36 rooms · A 1,000-year castle estate reimagined by the family who restored it. A touch larger, but the design DNA is unmistakably yours.  ·  Verdict: worth a stay.`,
+  vet: `**The Newt in Somerset** — vetting against the collection.\n\n**Setting** 9/10 — a working Georgian estate with cider orchards and gardens; immersion in the Triple Creek / Hideaway Rio Celeste vein.\n**Character & Soul** 9/10 — among the most thoughtful properties in Britain; sits with Round Hill and Fuente de la Higuera at your top.\n**Cuisine** 9/10 — farm-to-table is the whole point, mapping onto your cuisine signal.\n**Intimacy** 7/10 — ~40 keys, a touch above your median but in range.\n\nProjected overall ~8/10. Squarely a Pearce property — character-driven, setting-immersive, food-serious.  ·  Verdict: belongs.`
+};
+
+async function runAI(engine) {
+  const input = document.getElementById(engine+"Input").value.trim();
+  if (!input) { document.getElementById(engine+"Input").focus(); return; }
+  const loadEl = document.getElementById(engine+"Loader");
+  const resEl = document.getElementById(engine+"Result");
+  const msgEl = document.getElementById(engine+"LoadMsg");
+  resEl.innerHTML = ""; loadEl.style.display = "block";
+  const key = getApiKey();
+  const deep = modes[engine] === "deep";
+  msgEl.textContent = deep ? "Searching the live web…" : (engine==="discover" ? "Scouting…" : "Vetting…");
+
+  if (!key) {
+    await new Promise(r => setTimeout(r, 900));
+    loadEl.style.display = "none";
+    resEl.innerHTML = `<span class="demo-tag">Demo output · add an API key for live results</span>` + renderMarkdown(DEMO[engine]);
+    return;
+  }
+
+  const sys = `You are the Pearce Hotel Engine. ${profileString()}\n\nWrite like a knowledgeable, candid friend. Use **bold** for hotel names. Be honest, not flattering.`;
+  const usr = engine === "discover"
+    ? `DISCOVER: Exploring "${input}". Surface 3-5 matching boutique hotels. For each: name, approx match %, room count, why it fits the profile, how it compares to the collection, and a verdict.`
+    : `VET: Considering "${input}". Score it against the profile across the seven attributes. Be honest. Compare to existing stays. End with a verdict: belongs, worth trying, or skip.`;
+  const body = { model:"claude-sonnet-4-20250514", max_tokens:1000, system:sys, messages:[{role:"user",content:usr}] };
+  if (deep) body.tools = [{ type:"web_search_20250305", name:"web_search" }];
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "x-api-key":key, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || "API error");
+    const text = (data.content||[]).filter(i=>i.type==="text").map(i=>i.text).join("\n") || "No results.";
+    resEl.innerHTML = renderMarkdown(text);
+  } catch(e) {
+    resEl.innerHTML = `<div style="color:var(--terra);padding:14px 0">Couldn't reach the engine: ${e.message}. Check the API key, or clear it to use demo mode.</div>`;
+  } finally { loadEl.style.display = "none"; }
+}
+function renderMarkdown(t) { return t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"); }
+
+// ===== TABS & EVENTS =====
+function switchTab(name) {
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.tab===name));
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.id===name));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => switchTab(b.dataset.tab));
+document.getElementById("searchInput").oninput = e => { searchVal = e.target.value; renderCards(); };
+document.getElementById("sortSelect").onchange = e => { sortBy = e.target.value; renderCards(); };
+document.getElementById("regionFilter").onchange = e => { regionFilterVal = e.target.value; renderCards(); };
+document.querySelectorAll(".mode-toggle button").forEach(btn => btn.onclick = () => {
+  const eng = btn.dataset.engine;
+  document.querySelectorAll(`.mode-toggle button[data-engine="${eng}"]`).forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on"); modes[eng] = btn.dataset.mode;
+});
+["rating",...ATTRS].forEach(k => { const el = document.getElementById("f_"+k); el.oninput = () => document.getElementById("rv_"+k).textContent = el.value; });
+["discover","vet"].forEach(eng => document.getElementById(eng+"Input").addEventListener("keydown", e => { if (e.key==="Enter") runAI(eng); }));
+
+["discover","vet"].forEach(eng => {
+  const box = document.querySelector(`#${eng} .ai-box`);
+  const panel = document.createElement("details");
+  panel.className = "key-panel";
+  panel.innerHTML = `<summary>Owner: connect a Claude API key for live results</summary>
+    <div class="body">
+      <input type="password" id="keyInput_${eng}" placeholder="sk-ant-…" value="${getApiKey()}">
+      <button onclick="setApiKey(document.getElementById('keyInput_${eng}').value.trim())">Save key</button>
+      <span class="key-status"></span>
+    </div>
+    <small>Stored only in this browser and sent directly to Anthropic. Never commit it to the repo. Visitors without a key see polished demo output.</small>`;
+  box.insertBefore(panel, box.querySelector(".loader"));
+});
+
+render();
+updateKeyStatus();
+syncFromCloud();
+</script>
+</body>
+</html>

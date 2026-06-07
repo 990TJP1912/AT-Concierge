@@ -1,0 +1,26 @@
+{
+  "name": "The Pearce Collection",
+  "short_name": "Pearce",
+  "description": "A curated atlas of character-driven hotels — and an engine that scouts, scores, and vets new ones against the profile.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f3ed",
+  "theme_color": "#1a2a32",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
