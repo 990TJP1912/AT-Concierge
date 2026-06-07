@@ -2,14 +2,14 @@
 // Caches the app shell so it works offline, and (more importantly)
 // existing at all is what makes Chrome show the "Install app" prompt.
 
-const CACHE = 'pearce-v1';
+const CACHE = 'pearce-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icons/icon.svg',
-  './icons/icon-maskable.svg',
-  './icons/favicon.svg'
+  './icon.svg',
+  './icon-maskable.svg',
+  './favicon.svg'
 ];
 
 self.addEventListener('install', event => {
